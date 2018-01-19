@@ -171,6 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f73df577281644882f8a309042aaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level01Password: nazi
+  level02Password: hitler
+  level03Password: god
 --- !u!1 &1201457040
 GameObject:
   m_ObjectHideFlags: 0
