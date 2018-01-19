@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class Hacker : MonoBehaviour
@@ -11,6 +9,7 @@ public class Hacker : MonoBehaviour
 
     string[] lv01Passwords = { "nazi", "franco", "gerard", "puigdemony" };
     string[] lv02Passwords = { "musolini", "darth vader", "palpatine", "junqueras" };
+    string[] lv03Passwords = { "paco", "manolo", "barcenas", "rajoy" };
 
     enum Screen
     {
@@ -40,6 +39,7 @@ public class Hacker : MonoBehaviour
 
     void OnUserInput(string input)
     {
+        input = input.ToLower();
         if (input == "menu")
         {
             ShowMenu();
@@ -71,30 +71,87 @@ public class Hacker : MonoBehaviour
     void StartGame()
     {
         currentScreen = Screen.Password;
+
         Terminal.ClearScreen();
         Terminal.WriteLine("You choose level " + currentLevel);
-        Terminal.WriteLine("Please enter your password");
+        SetPassword();
+    }
 
+    private void SetPassword()
+    {
         switch (currentLevel)
         {
             case 1:
-                password = lv01Passwords[UnityEngine.Random.Range(0, lv01Passwords.Length)];
-                    break;
+                password = lv01Passwords[Random.Range(0, lv01Passwords.Length)];
+                break;
             case 2:
-                password = lv02Passwords[UnityEngine.Random.Range(0, lv02Passwords.Length)];
+                password = lv02Passwords[Random.Range(0, lv02Passwords.Length)];
+                break;
+            case 3:
+                password = lv03Passwords[Random.Range(0, lv03Passwords.Length)];
                 break;
         }
+        Terminal.WriteLine("Enter your password, hint: " + password.Anagram());
     }
 
     void CheckPassword(string input)
     {
         if (input == password)
         {
-            Terminal.WriteLine("WELL DONE!");
+            WinScreen();
         }
         else
         {
+            Terminal.ClearScreen();
             Terminal.WriteLine("Sorry, wrong password!");
+            Terminal.WriteLine("Password changed");
+            SetPassword();
+        }
+    }
+
+    void WinScreen()
+    {
+        currentScreen = Screen.Win;
+        Terminal.ClearScreen();
+        Terminal.WriteLine("WELL DONE!");
+        Terminal.WriteLine("You complete the level " + currentLevel);
+        ShowReward();
+        Terminal.WriteLine("");
+        Terminal.WriteLine("Menu - to return to level selection");
+    }
+
+    void ShowReward()
+    {
+        switch (currentLevel)
+        {
+            case 1:
+                Terminal.WriteLine(@"
+              ∩
+　　　　　　　＼＼
+　　　　　　　／　 ）
+⊂＼＿／￣￣￣　 ／
+　＼＿／   ° ͜ʖ ° （
+　　　）　　 　／⌒＼
+　　／　 ＿＿＿／⌒＼⊃
+　（　 ／
+　　＼＼
+       U
+                ");
+                break;
+            case 2:
+                Terminal.WriteLine(@"
+(\_/)
+( •,•)
+(')_(')
+                ");
+                break;
+            case 3:
+                Terminal.WriteLine(@"
+(\__/) || 
+(•ㅅ•) || 
+/ 　   づ  
+                ");
+                break;
         }
     }
 }
